@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Posty Calculator PRO 🎤</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: url('https://upload.wikimedia.org/wikipedia/commons/c/c1/Post_Malone_2019.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    header {
+      background: rgba(0,0,0,0.7);
+      width: 100%;
+      text-align: center;
+      padding: 20px;
+      font-size: 2em;
+      font-weight: bold;
+    }
+    .container {
+      max-width: 900px;
+      margin: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      width: 100%;
+    }
+    .card {
+      background: rgba(0,0,0,0.7);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+      transition: transform 0.2s ease;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    h2 {
+      margin-top: 0;
+      color: #ffb400;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: none;
+      font-size: 1em;
+    }
+    input {
+      background: #f9fafb;
+      color: black;
+    }
+    button {
+      background: #ffb400;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    button:hover {
+      background: #e0a000;
+    }
+    .result {
+      margin-top: 10px;
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #00ffcc;
+    }
+    #posty {
+      margin: 30px auto;
+      width: 250px;
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.9);
+      transition: transform 0.4s ease;
+    }
+    #posty.happy {
+      transform: scale(1.15) rotate(5deg);
+    }
+    footer {
+      margin: 20px;
+      font-size: 0.9em;
+      background: rgba(0,0,0,0.6);
+      padding: 10px 20px;
+      border-radius: 12px;
+    }
+  </style>
+</head>
+<body>
+  <header>🎶 Posty Calculator PRO 🎶</header>
+
+  <div class="container">
+    <!-- Calcoli base -->
+    <div class="card">
+      <h2>➕ Calcoli Base</h2>
+      <input type="number" id="num1" placeholder="Numero 1">
+      <input type="number" id="num2" placeholder="Numero 2">
+      <button onclick="basicCalc('+')">Somma</button>
+      <button onclick="basicCalc('-')">Sottrai</button>
+      <button onclick="basicCalc('*')">Moltiplica</button>
+      <button onclick="basicCalc('/')">Dividi</button>
+      <div class="result" id="basicResult"></div>
+    </div>
+
+    <!-- Percentuali -->
+    <div class="card">
+      <h2>% Percentuali</h2>
+      <input type="number" id="base" placeholder="Numero base (es. prezzo)">
+      <input type="number" id="perc" placeholder="Percentuale (es. 20)">
+      <button onclick="calcolaPerc()">Calcola %</button>
+      <button onclick="applicaSconto()">Applica Sconto</button>
+      <button onclick="applicaAumento()">Applica Aumento</button>
+      <div class="result" id="percResult"></div>
+    </div>
+
+    <!-- Statistica -->
+    <div class="card">
+      <h2>📊 Statistica</h2>
+      <input type="text" id="listaNumeri" placeholder="Inserisci numeri separati da virgola (es: 2,4,5,5,7)">
+      <button onclick="calcolaStat()">Calcola Media, Moda, Mediana</button>
+      <div class="result" id="statResult"></div>
+    </div>
+  </div>
+
+  <img id="posty" src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExMmR2NXplbHJ3cmx2cWM0N3pjaWU4a2FhbTYwanhmcG93ZGtkdGR0cSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ZBJq9YnKoRimnTEaa0/giphy.gif" alt="Post Malone felice">
+
+  <footer>Made with ❤️ and 🎤 by Posty & You</footer>
+
+  <script>
+    function animatePosty() {
+      let posty = document.getElementById("posty");
+      posty.classList.add("happy");
+      setTimeout(() => posty.classList.remove("happy"), 800);
+    }
+
+    // --- Calcoli Base ---
+    function basicCalc(op) {
+      let n1 = parseFloat(document.getElementById("num1").value);
+      let n2 = parseFloat(document.getElementById("num2").value);
+      let res;
+      if (op === '+') res = n1 + n2;
+      if (op === '-') res = n1 - n2;
+      if (op === '*') res = n1 * n2;
+      if (op === '/') res = n2 !== 0 ? n1 / n2 : "Errore: divisione per 0";
+      document.getElementById("basicResult").innerText = "Risultato: " + res;
+      animatePosty();
+    }
+
+    // --- Percentuali ---
+    function calcolaPerc() {
+      let base = parseFloat(document.getElementById("base").value);
+      let perc = parseFloat(document.getElementById("perc").value);
+      let res = base * (perc / 100);
+      document.getElementById("percResult").innerText = perc + "% di " + base + " = " + res;
+      animatePosty();
+    }
+
+    function applicaSconto() {
+      let base = parseFloat(document.getElementById("base").value);
+      let perc = parseFloat(document.getElementById("perc").value);
+      let res = base - base * (perc / 100);
+      document.getElementById("percResult").innerText = "Prezzo con sconto del " + perc + "%: " + res;
+      animatePosty();
+    }
+
+    function applicaAumento() {
+      let base = parseFloat(document.getElementById("base").value);
+      let perc = parseFloat(document.getElementById("perc").value);
+      let res = base + base * (perc / 100);
+      document.getElementById("percResult").innerText = "Prezzo con aumento del " + perc + "%: " + res;
+      animatePosty();
+    }
+
+    // --- Statistica ---
+    function calcolaStat() {
+      let valori = document.getElementById("listaNumeri").value.split(",").map(Number).filter(n => !isNaN(n));
+      if (valori.length === 0) {
+        document.getElementById("statResult").innerText = "Inserisci almeno un numero valido.";
+        return;
+      }
+      let media = valori.reduce((a, b) => a + b, 0) / valori.length;
+      let freq = {};
+      valori.forEach(v => freq[v] = (freq[v] || 0) + 1);
+      let maxFreq = Math.max(...Object.values(freq));
+      let moda = Object.keys(freq).filter(k => freq[k] === maxFreq).join(", ");
+      valori.sort((a, b) => a - b);
+      let mediana;
+      let mid = Math.floor(valori.length / 2);
+      if (valori.length % 2 === 0) {
+        mediana = (valori[mid - 1] + valori[mid]) / 2;
+      } else {
+        mediana = valori[mid];
+      }
+      document.getElementById("statResult").innerText = 
+        "Media: " + media.toFixed(2) + " | Moda: " + moda + " | Mediana: " + mediana;
+      animatePosty();
+    }
+  </script>
+</body>
+</html>
